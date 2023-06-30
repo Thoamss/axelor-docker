@@ -13,4 +13,4 @@ gradle.ext.appModules = modules
 modules.each { dir ->
   include "modules:$dir.name"
   project(":modules:$dir.name").projectDir = dir
-}
+}cd
