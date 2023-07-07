@@ -17,6 +17,11 @@ RUN ./gradlew clean build
 FROM tomcat:8.5-jdk8
 WORKDIR /usr/local/tomcat/webapps
 COPY --from=builder open-suite-webapp/build/libs/axelor-erp-6.4.17.war ROOT.war
-EXPOSE 8080
+WORKDIR /home
+RUN mkdir open-suite-webapp
+WORKDIR /home/open-suite-webapp
+COPY --from=builder open-suite-webapp/src/main/resources/application.properties application.properties
 WORKDIR /usr/local/tomcat/bin
-CMD ["startup.sh"]
+RUN set JAVA_OPTS=%JAVA_OPTS% -Daxelor.config=/home/open-suite-webapp/application.properties
+EXPOSE 8080
+#CMD ["startup.sh"]
